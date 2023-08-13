@@ -12,10 +12,8 @@ public class Validator {
     private static void validateNumber(Long id, String parameter) {
         if (id == null || id < 1) {
             throw new InvalidDataException(
-                    String.format(ErrorCode.VALIDATE_NEGATIVE_OR_NULL_NUMBER.getMessage(), parameter, parameter, id));
-        }
+                    String.format(ErrorCode.VALIDATE_NEGATIVE_OR_NULL_NUMBER.getMessage(), parameter, parameter, id));       }
     }
-
 
     public static void validateNewsId(Long newsId) {
         validateNumber(newsId, Constants.NEWS_ID);

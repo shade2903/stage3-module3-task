@@ -1,15 +1,20 @@
 package com.mjc.school;
 
-import com.mjc.school.config.AppConfig;
+
 import com.mjc.school.controller.view.Menu;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
-public class
-        Main {
+@SpringBootApplication
+@EnableJpaAuditing
+@EnableAspectJAutoProxy
+public class Main {
     public static void main(String[] args) {
-        ApplicationContext applicationContext = new AnnotationConfigApplicationContext(AppConfig.class);
+        ApplicationContext applicationContext = SpringApplication.run(Main.class, args);
         Menu menu = applicationContext.getBean(Menu.class);
         menu.menuScreen();
 

@@ -8,6 +8,8 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
 
 @Scope("prototype")
 @Entity
@@ -16,13 +18,20 @@ import java.time.LocalDateTime;
 public class TagModel implements BaseEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(nullable = false)
     private Long id;
+    @Column(nullable = false)
     private String name;
     @CreatedDate
+    @Column(nullable = false)
     private LocalDateTime createDate;
 
     @LastModifiedDate
+    @Column(nullable = false)
     private LocalDateTime lastUpdateDate;
+
+    @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
+    private List<NewsModel> news;
 
     @Override
     public Long getId() {
@@ -56,5 +65,42 @@ public class TagModel implements BaseEntity<Long> {
 
     public void setLastUpdateDate(LocalDateTime lastUpdateDate) {
         this.lastUpdateDate = lastUpdateDate;
+    }
+
+    public List<NewsModel> getNews() {
+        return news;
+    }
+
+    public void setNews(List<NewsModel> news) {
+        this.news = news;
+    }
+
+    public TagModel() {
+    }
+
+    public TagModel(Long id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        TagModel tagModel = (TagModel) o;
+        return Objects.equals(id, tagModel.id) && Objects.equals(name, tagModel.name) && Objects.equals(createDate, tagModel.createDate) && Objects.equals(lastUpdateDate, tagModel.lastUpdateDate) && Objects.equals(news, tagModel.news);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name, createDate, lastUpdateDate, news);
+    }
+
+    @Override
+    public String toString() {
+        return "TagModel{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
     }
 }

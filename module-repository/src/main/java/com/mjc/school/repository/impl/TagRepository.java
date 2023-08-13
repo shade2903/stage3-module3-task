@@ -1,7 +1,8 @@
 package com.mjc.school.repository.impl;
 
 import com.mjc.school.repository.BaseRepository;
-import com.mjc.school.repository.model.impl.NewsModel;
+import com.mjc.school.repository.model.impl.AuthorModel;
+import com.mjc.school.repository.model.impl.TagModel;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -11,24 +12,26 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public class NewsRepository implements BaseRepository<NewsModel, Long> {
-    private final String READ_ALL = "SELECT n FROM NewsModel n";
+public class TagRepository implements BaseRepository<TagModel, Long> {
+    private final String READ_ALL = "SELECT t FROM TagModel t";
     @PersistenceUnit
     private EntityManagerFactory entityManagerFactory;
+
+
     @Override
-    public List<NewsModel> readAll() {
+    public List<TagModel> readAll() {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        return entityManager.createQuery(READ_ALL, NewsModel.class).getResultList();
+        return entityManager.createQuery(READ_ALL, TagModel.class).getResultList();
     }
 
     @Override
-    public Optional<NewsModel> readById(Long id) {
+    public Optional<TagModel> readById(Long id) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
-        return Optional.ofNullable(entityManager.find(NewsModel.class, id));
+        return Optional.ofNullable(entityManager.find(TagModel.class, id));
     }
 
     @Override
-    public NewsModel create(NewsModel entity) {
+    public TagModel create(TagModel entity) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
         entityManager.persist(entity);
@@ -37,15 +40,13 @@ public class NewsRepository implements BaseRepository<NewsModel, Long> {
     }
 
     @Override
-    public NewsModel update(NewsModel entity) {
+    public TagModel update(TagModel entity) {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         entityManager.getTransaction().begin();
-        NewsModel updatedNews = entityManager.getReference(NewsModel.class, entity.getId());
-        updatedNews.setTitle(entity.getTitle());
-        updatedNews.setContent(entity.getContent());
-        updatedNews.setAuthor(entity.getAuthor());
+        TagModel updatedTag = entityManager.getReference(TagModel.class, entity.getId());
+        updatedTag.setName(entity.getName());
         entityManager.getTransaction().commit();
-        return updatedNews;
+        return updatedTag;
     }
 
     @Override
@@ -53,8 +54,8 @@ public class NewsRepository implements BaseRepository<NewsModel, Long> {
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         if(readById(id).isPresent()){
             entityManager.getTransaction().begin();
-            NewsModel news = entityManager.find(NewsModel.class, id);
-            entityManager.remove(news);
+            TagModel tag = entityManager.find(TagModel.class, id);
+            entityManager.remove(tag);
             entityManager.getTransaction().commit();
             return !existById(id);
         }
