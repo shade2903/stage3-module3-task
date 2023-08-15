@@ -1,22 +1,20 @@
 package com.mjc.school.service.dto;
 
-import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
 @Component
-@Scope("prototype")
-public class AuthorDtoRequest {
+public class TagDtoResponse {
     private Long id;
-    private String name;
+    private Long name;
 
-    public AuthorDtoRequest() {
-    }
-
-    public AuthorDtoRequest(Long id, String name) {
+    public TagDtoResponse(Long id, Long name) {
         this.id = id;
         this.name = name;
+    }
+
+    public TagDtoResponse() {
     }
 
     public Long getId() {
@@ -27,31 +25,24 @@ public class AuthorDtoRequest {
         this.id = id;
     }
 
-    public String getName() {
+    public Long getName() {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(Long name) {
         this.name = name;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof AuthorDtoRequest that)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
+        TagDtoResponse that = (TagDtoResponse) o;
         return Objects.equals(id, that.id) && Objects.equals(name, that.name);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(id, name);
-    }
-
-    @Override
-    public String toString() {
-        return "AuthorDtoRequest{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
     }
 }

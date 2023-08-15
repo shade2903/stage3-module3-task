@@ -7,16 +7,16 @@ import java.util.Objects;
 
 @Component
 @Scope("prototype")
-public class AuthorDtoRequest {
+public class TagDtoRequest {
     private Long id;
     private String name;
 
-    public AuthorDtoRequest() {
-    }
-
-    public AuthorDtoRequest(Long id, String name) {
+    public TagDtoRequest(Long id, String name) {
         this.id = id;
         this.name = name;
+    }
+
+    public TagDtoRequest() {
     }
 
     public Long getId() {
@@ -38,7 +38,8 @@ public class AuthorDtoRequest {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof AuthorDtoRequest that)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
+        TagDtoRequest that = (TagDtoRequest) o;
         return Objects.equals(id, that.id) && Objects.equals(name, that.name);
     }
 
@@ -49,7 +50,7 @@ public class AuthorDtoRequest {
 
     @Override
     public String toString() {
-        return "AuthorDtoRequest{" +
+        return "TagDtoRequest{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 '}';

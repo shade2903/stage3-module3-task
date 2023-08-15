@@ -22,13 +22,6 @@ public class TagModel implements BaseEntity<Long> {
     private Long id;
     @Column(nullable = false)
     private String name;
-    @CreatedDate
-    @Column(nullable = false)
-    private LocalDateTime createDate;
-
-    @LastModifiedDate
-    @Column(nullable = false)
-    private LocalDateTime lastUpdateDate;
 
     @ManyToMany(mappedBy = "tags", fetch = FetchType.LAZY)
     private List<NewsModel> news;
@@ -51,21 +44,6 @@ public class TagModel implements BaseEntity<Long> {
         this.name = name;
     }
 
-    public LocalDateTime getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(LocalDateTime createDate) {
-        this.createDate = createDate;
-    }
-
-    public LocalDateTime getLastUpdateDate() {
-        return lastUpdateDate;
-    }
-
-    public void setLastUpdateDate(LocalDateTime lastUpdateDate) {
-        this.lastUpdateDate = lastUpdateDate;
-    }
 
     public List<NewsModel> getNews() {
         return news;
@@ -88,12 +66,12 @@ public class TagModel implements BaseEntity<Long> {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         TagModel tagModel = (TagModel) o;
-        return Objects.equals(id, tagModel.id) && Objects.equals(name, tagModel.name) && Objects.equals(createDate, tagModel.createDate) && Objects.equals(lastUpdateDate, tagModel.lastUpdateDate) && Objects.equals(news, tagModel.news);
+        return Objects.equals(id, tagModel.id) && Objects.equals(name, tagModel.name) && Objects.equals(news, tagModel.news);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, createDate, lastUpdateDate, news);
+        return Objects.hash(id, name, news);
     }
 
     @Override
