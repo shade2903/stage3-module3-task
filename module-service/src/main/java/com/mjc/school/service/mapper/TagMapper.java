@@ -6,12 +6,13 @@ import com.mjc.school.service.dto.TagDtoResponse;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = NewsMapper.class)
 public interface TagMapper {
     TagMapper INSTANCE = Mappers.getMapper(TagMapper.class);
 
+    @Mapping(target = "news", ignore = true)
     TagModel tagFromDtoRequest(TagDtoRequest request);
 
-    @Mapping(target = "news", ignore = true)
+
     TagDtoResponse tagToDtoResponse(TagModel tagModel);
 }

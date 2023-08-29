@@ -13,14 +13,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring",uses = {TagMapper.class, AuthorMapper.class})
 public interface NewsMapper {
     NewsMapper INSTANCE = Mappers.getMapper(NewsMapper.class);
 
     @Mapping(target = "createDate", ignore = true)
     @Mapping(target = "lastUpdateDate", ignore = true)
-    @Mapping(target = "authorId", source = "authorModel.id")
-    @Mapping(source = "tags", target = "tagsId", qualifiedByName = "tagModelFromTagId")
+    @Mapping(target = "author.id", source = "authorId")
+    @Mapping(source = "tagsId", target = "tags", qualifiedByName = "tagModelFromTagId")
     NewsModel newsFromDtoRequest(NewsDtoRequest request);
 
     @Named("tagModelFromTagId")
@@ -38,8 +38,10 @@ public interface NewsMapper {
         return tags;
 
     }
-    @Mapping(target = "authorId", source = "authorModel.id")
-    @Mapping(target = "tags", source = "tagModels", qualifiedByName = "tagModelToTagId")
+    @Mapping(target = "authorId", source = "author.id")
+    @Mapping(target = "tagsId", source = "tags", qualifiedByName = "tagModelToTagId")
+    @Mapping(target = "createDate", ignore = true)
+    @Mapping(target = "lastUpdateDate", ignore = true)
     NewsDtoResponse newsToDtoResponse(NewsModel model);
 
 

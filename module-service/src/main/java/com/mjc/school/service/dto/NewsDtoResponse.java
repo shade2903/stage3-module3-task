@@ -16,7 +16,7 @@ public class NewsDtoResponse {
     private LocalDateTime lastUpdateDate;
     private Long authorId;
 
-    private List<Long> tags;
+    private List<Long> tagsId;
 
     public NewsDtoResponse(Long id,
                            String title,
@@ -24,14 +24,14 @@ public class NewsDtoResponse {
                            LocalDateTime createDate,
                            LocalDateTime lastUpdateDate,
                            Long authorId,
-                           List<Long> tags) {
+                           List<Long> tagsId) {
         this.id = id;
         this.title = title;
         this.content = content;
         this.createDate = createDate;
         this.lastUpdateDate = lastUpdateDate;
         this.authorId = authorId;
-        this.tags = tags;
+        this.tagsId = tagsId;
     }
 
     public NewsDtoResponse() {
@@ -85,6 +85,14 @@ public class NewsDtoResponse {
         this.authorId = authorId;
     }
 
+    public List<Long> getTagsId() {
+        return tagsId;
+    }
+
+    public void setTagsId(List<Long> tagsId) {
+        this.tagsId = tagsId;
+    }
+
     @Override
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSS");
@@ -95,7 +103,7 @@ public class NewsDtoResponse {
                 ", createDate=" + formatter.format(createDate) +
                 ", lastUpdateDate=" + formatter.format(lastUpdateDate) +
                 ", authorId=" + authorId +
-                ", tagsId=" + tags +
+                ", tagsId=" + tagsId +
                 '}';
     }
 
@@ -104,11 +112,11 @@ public class NewsDtoResponse {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         NewsDtoResponse that = (NewsDtoResponse) o;
-        return Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(content, that.content) && Objects.equals(createDate, that.createDate) && Objects.equals(lastUpdateDate, that.lastUpdateDate) && Objects.equals(authorId, that.authorId) && Objects.equals(tags, that.tags);
+        return Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(content, that.content) && Objects.equals(createDate, that.createDate) && Objects.equals(lastUpdateDate, that.lastUpdateDate) && Objects.equals(authorId, that.authorId) && Objects.equals(tagsId, that.tagsId);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, title, content, createDate, lastUpdateDate, authorId, tags);
+        return Objects.hash(id, title, content, createDate, lastUpdateDate, authorId, tagsId);
     }
 }
