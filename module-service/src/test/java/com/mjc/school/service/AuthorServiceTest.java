@@ -1,84 +1,59 @@
-///*
-//package com.mjc.school.service;
-//
-//import com.mjc.school.service.dto.AuthorDtoRequest;
-//import com.mjc.school.service.dto.AuthorDtoResponse;
-//import com.mjc.school.service.exception.NotFoundException;
-//import org.junit.jupiter.api.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.context.annotation.ComponentScan;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-//
-//import static org.junit.jupiter.api.Assertions.*;
-//
-//@SpringJUnitConfig
-//public class AuthorServiceTest {
-//
-//    @Configuration
-//    @ComponentScan({"com.mjc.school.repository",
-//            "com.mjc.school.service"})
-//    static class TestConfig{}
-//
-//    @Autowired
-//    private BaseService<AuthorDtoRequest, AuthorDtoResponse,Long > authorService;
-//
-//
-//    @Test
-//    void readAllAuthorsTest(){
-//        assertNotNull(authorService.readAll());
-//    }
-//
-//    @Test
-//    void readAuthorByIdTest(){
-//        Long getAuthorId = 5l;
-//        Long expectedIdAuthor = 5l;
-//        AuthorDtoResponse authorDtoResponse = authorService.readById(getAuthorId);
-//        assertNotNull(authorDtoResponse);
-//        assertEquals(expectedIdAuthor,authorDtoResponse.getId());
-//        assertNotNull(authorDtoResponse.getName());
-//        assertNotNull(authorDtoResponse.getCreateDate());
-//        assertNotNull(authorDtoResponse.getLastUpdateDate());
-//        assertThrows(NotFoundException.class, ()-> authorService.readById(-1l));
-//    }
-//
-//    @Test
-//    void createAuthorTest(){
-//      String nameExpected = "Ilon Mask";
-//        AuthorDtoResponse createAuthor = authorService.create(
-//                new AuthorDtoRequest(null, "Ilon Mask")
-//        );
-//        assertNotNull(createAuthor);
-//        assertNotNull(createAuthor.getId());
-//        assertNotNull(createAuthor.getName());
-//        assertNotNull(createAuthor.getCreateDate());
-//        assertNotNull(createAuthor.getLastUpdateDate());
-//        assertEquals(nameExpected,createAuthor.getName());
-//    }
-//
-//    @Test
-//    void updateAuthorTest(){
-//        String nameExpected = "Jack Black";
-//        Long expectedId = 12l;
-//        AuthorDtoRequest author = new AuthorDtoRequest(12l,"Jack Black");
-//        AuthorDtoResponse updatedAuthor = authorService.update(author);
-//        assertNotNull(updatedAuthor);
-//        assertNotNull(updatedAuthor.getId());
-//        assertNotNull(updatedAuthor.getName());
-//        assertNotNull(updatedAuthor.getCreateDate());
-//        assertNotNull(updatedAuthor.getLastUpdateDate());
-//        assertEquals(nameExpected,updatedAuthor.getName());
-//        assertEquals(expectedId,updatedAuthor.getId());
-//        assertNotEquals(updatedAuthor.getLastUpdateDate(), updatedAuthor.getCreateDate());
-//    }
-//
-//    @Test
-//    void deleteAuthorById(){
-//        int actualListSizeBeforeOperation = authorService.readAll().size();
-//        assertTrue(authorService.deleteById(13l));
-//        int actualListSizeAfterOperation = authorService.readAll().size();
-//        assertEquals(actualListSizeBeforeOperation -1,actualListSizeAfterOperation);
-//        assertThrows(NotFoundException.class, ()-> authorService.deleteById(-1l));
-//    }
-//}
-//*/
+
+package com.mjc.school.service;
+
+
+import com.mjc.school.repository.impl.AuthorRepository;
+import com.mjc.school.repository.model.impl.AuthorModel;
+import com.mjc.school.repository.model.impl.NewsModel;
+import com.mjc.school.service.dto.AuthorDtoResponse;
+import com.mjc.school.service.impl.AuthorService;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+@ExtendWith(MockitoExtension.class)
+public class AuthorServiceTest {
+    private final  List<AuthorModel> authorList = new ArrayList<>();
+    private final List<NewsModel> newsList = new ArrayList<>();
+
+    @Mock
+    private AuthorRepository authorRepository;
+
+    @InjectMocks
+    private AuthorService authorService;
+
+    @BeforeEach
+    void init(){
+        authorList.add(new AuthorModel(1L,"Maik Herst", LocalDateTime.now(), LocalDateTime.now()));
+        authorList.add(new AuthorModel(2L,"Jodi Foster", LocalDateTime.now(), LocalDateTime.now()));
+        authorList.add(new AuthorModel(3L,"Henry Cavil", LocalDateTime.now(), LocalDateTime.now()));
+    }
+
+    @Test
+    @DisplayName("test method readAll()")
+  void testReadAllAuthors(){
+        Mockito.when(authorRepository.readAll()).thenReturn(authorList);
+        List<AuthorDtoResponse> authorDtoResponses = authorService.readAll();
+        Assertions.assertNotNull(authorDtoResponses);
+        assertEquals(authorList.size(), authorDtoResponses.size());
+    }
+
+
+
+
+
+
+}
+

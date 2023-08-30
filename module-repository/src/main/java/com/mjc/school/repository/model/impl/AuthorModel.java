@@ -45,6 +45,13 @@ public class AuthorModel implements BaseEntity<Long> {
         this.news = news;
     }
 
+    public AuthorModel(Long id, String name, LocalDateTime createDate, LocalDateTime lastUpdateDate) {
+        this.id = id;
+        this.name = name;
+        this.createDate = createDate;
+        this.lastUpdateDate = lastUpdateDate;
+    }
+
     @Override
     public Long getId() {
         return this.id;
