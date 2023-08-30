@@ -17,4 +17,8 @@ public class Constants {
     public static final String AUTHOR_NAME = "Author name";
     public static final String NEWS_TITLE = "News title";
     public static final String NEWS_CONTENT = "News content";
+
+    public static final String TAGS_ID = "Tags id";
+
+    public static final String TAG = "Tag";
 }

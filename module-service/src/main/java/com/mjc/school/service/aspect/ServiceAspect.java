@@ -18,7 +18,6 @@ import java.util.List;
 @Component
 public class ServiceAspect {
 
-
     @Before("@annotation(com.mjc.school.service.annotation.ValidateAuthorId) && args(id)")
     public void validateAuthorId(Long id) {
         Validator.validateAuthorId(id);
