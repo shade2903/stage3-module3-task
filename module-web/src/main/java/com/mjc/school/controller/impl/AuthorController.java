@@ -22,13 +22,13 @@ public class AuthorController implements BaseController<AuthorDtoRequest, Author
     }
 
     @Override
-    @CommandHandler(operation = 5)
+    @CommandHandler(operation = 2)
     public List<AuthorDtoResponse> readAll() {
         return authorService.readAll();
     }
 
     @Override
-    @CommandHandler(operation = 6)
+    @CommandHandler(operation = 5)
     public AuthorDtoResponse readById(@CommandParam(name = "id") Long id) {
         return authorService.readById(id);
     }
@@ -40,13 +40,13 @@ public class AuthorController implements BaseController<AuthorDtoRequest, Author
     }
 
     @Override
-    @CommandHandler(operation = 9)
+    @CommandHandler(operation = 11)
     public AuthorDtoResponse update(@CommandBody AuthorDtoRequest updateRequest) {
         return authorService.update(updateRequest);
     }
 
     @Override
-    @CommandHandler(operation = 10)
+    @CommandHandler(operation = 14)
     public boolean deleteById(@CommandParam(name = "id")Long id) {
         return authorService.deleteById(id);
     }

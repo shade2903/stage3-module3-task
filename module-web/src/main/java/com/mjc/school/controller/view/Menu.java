@@ -2,7 +2,8 @@ package com.mjc.school.controller.view;
 
 import com.mjc.school.controller.BaseController;
 import com.mjc.school.controller.command.Invoker;
-import com.mjc.school.controller.command.impl.*;
+import com.mjc.school.controller.command.impl.author.*;
+import com.mjc.school.controller.command.impl.news.*;
 import com.mjc.school.controller.constants.MenuConstants;
 import com.mjc.school.service.dto.AuthorDtoRequest;
 import com.mjc.school.service.dto.AuthorDtoResponse;

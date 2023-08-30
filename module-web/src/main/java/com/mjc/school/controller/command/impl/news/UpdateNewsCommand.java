@@ -1,4 +1,4 @@
-package com.mjc.school.controller.command.impl;
+package com.mjc.school.controller.command.impl.news;
 
 import com.mjc.school.controller.BaseController;
 import com.mjc.school.controller.command.AbstractCommand;
@@ -19,7 +19,7 @@ public class UpdateNewsCommand extends AbstractCommand<NewsDtoRequest, NewsDtoRe
     @Override
     public void execute() {
         NewsDtoRequest newsDtoRequest = new NewsDtoRequest();
-        System.out.println(MenuConstants.ENTER_ID);
+        System.out.println(MenuConstants.ENTER_NEWS_ID);
         Long id = Utils.inputLongNumber(getInput());
         System.out.println(MenuConstants.ENTER_TITLE);
         String title = getInput().nextLine();
