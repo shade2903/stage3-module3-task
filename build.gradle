@@ -28,7 +28,7 @@ subprojects {
         testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:$jupiterVersion"
         testImplementation "com.tngtech.archunit:archunit:$archUnitVersion"
         // https://mvnrepository.com/artifact/com.h2database/h2
-        testImplementation 'com.h2database:h2:2.2.220'
+        implementation 'com.h2database:h2:2.2.220'
 
         // https://mvnrepository.com/artifact/org.aspectj/aspectjweaver
         implementation 'org.aspectj:aspectjweaver:1.9.19'

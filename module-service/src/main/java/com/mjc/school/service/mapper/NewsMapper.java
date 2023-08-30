@@ -5,6 +5,7 @@ import com.mjc.school.repository.model.impl.TagModel;
 import com.mjc.school.service.dto.NewsDtoRequest;
 import com.mjc.school.service.dto.NewsDtoResponse;
 import org.mapstruct.Mapper;
+
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
@@ -52,8 +53,7 @@ public interface NewsMapper {
             tags.stream().forEach(
                     o -> {
                        tagsListId.add(o.getId());
-                    }
-            );
+                    }            );
         }
         return tagsListId;
     }
