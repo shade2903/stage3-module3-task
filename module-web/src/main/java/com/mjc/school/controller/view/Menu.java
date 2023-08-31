@@ -39,14 +39,14 @@ public class Menu {
                 switch (input.nextLine()) {
                     case "1" -> invoker.setCommand(new ReadAllNewsCommand(newsController));
                     case "2" -> invoker.setCommand(new ReadAllAuthorsCommand(authorController));
-                    case "3" -> invoker.setCommand(new ReadNewsByIdCommand(newsController, input));
-                    case "4" -> invoker.setCommand(new ReadAuthorByIdCommand(authorController, input));
-                    case "5" -> invoker.setCommand(new CreateNewsCommand(newsController, input));
-                    case "6" -> invoker.setCommand(new CreateAuthorCommand(authorController, input));
-                    case "7" -> invoker.setCommand(new UpdateNewsCommand(newsController, input));
-                    case "8" -> invoker.setCommand(new UpdateAuthorCommand(authorController, input));
-                    case "9" -> invoker.setCommand(new DeleteNewsByIdCommand(newsController, input));
-                    case "10" -> invoker.setCommand(new DeleteAuthorByIdCommand(authorController, input));
+                    case "4" -> invoker.setCommand(new ReadNewsByIdCommand(newsController, input));
+                    case "5" -> invoker.setCommand(new ReadAuthorByIdCommand(authorController, input));
+                    case "7" -> invoker.setCommand(new CreateNewsCommand(newsController, input));
+                    case "8" -> invoker.setCommand(new CreateAuthorCommand(authorController, input));
+                    case "10" -> invoker.setCommand(new UpdateNewsCommand(newsController, input));
+                    case "11" -> invoker.setCommand(new UpdateAuthorCommand(authorController, input));
+                    case "13" -> invoker.setCommand(new DeleteNewsByIdCommand(newsController, input));
+                    case "14" -> invoker.setCommand(new DeleteAuthorByIdCommand(authorController, input));
                     case "0" -> exitProgram();
                     default ->  System.out.println(MenuConstants.OPERATION_ERROR);
                 }
