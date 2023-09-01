@@ -100,8 +100,8 @@ public class NewsDtoResponse {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", content='" +content + '\'' +
-                ", createDate=" + formatter.format(createDate) +
-                ", lastUpdateDate=" + formatter.format(lastUpdateDate) +
+                ", createDate=" + createDate +
+                ", lastUpdateDate=" + lastUpdateDate +
                 ", authorId=" + authorId +
                 ", tagsId=" + tagsId +
                 '}';

@@ -17,13 +17,14 @@ import com.mjc.school.service.mapper.NewsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
 
 public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse, Long> {
-    private final BaseRepository<NewsModel,Long> newsRepository;
+    private final BaseRepository<NewsModel, Long> newsRepository;
     private final BaseRepository<AuthorModel, Long> authorRepository;
 
     @Autowired
@@ -51,10 +52,10 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
     @Override
     @ValidateNewsParam
     public NewsDtoResponse create(NewsDtoRequest createRequest) {
-      if(authorRepository.existById(createRequest.getAuthorId())){
-          NewsModel newsModel = newsRepository.create(NewsMapper.INSTANCE.newsFromDtoRequest(createRequest));
-          return NewsMapper.INSTANCE.newsToDtoResponse(newsModel);
-      }
+        if (authorRepository.existById(createRequest.getAuthorId())) {
+            NewsModel createNews = NewsMapper.INSTANCE.newsFromDtoRequest(createRequest);
+            return NewsMapper.INSTANCE.newsToDtoResponse(newsRepository.create(createNews));
+        }
         throw new NotFoundException(
                 String.format(ErrorCode.NOT_FOUND_DATA.getMessage(), Constants.AUTHOR, createRequest.getAuthorId()));
     }
@@ -62,7 +63,7 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
     @Override
     @ValidateNewsParam
     public NewsDtoResponse update(NewsDtoRequest updateRequest) {
-        if(newsRepository.existById(updateRequest.getId())){
+        if (newsRepository.existById(updateRequest.getId())) {
             NewsModel newsModel = newsRepository.update(NewsMapper.INSTANCE.newsFromDtoRequest(updateRequest));
             return NewsMapper.INSTANCE.newsToDtoResponse(newsModel);
         }
@@ -73,7 +74,7 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
     @Override
     @ValidateNewsId
     public boolean deleteById(Long id) {
-        if(newsRepository.existById(id)){
+        if (newsRepository.existById(id)) {
 
             return newsRepository.deleteById(id);
         }

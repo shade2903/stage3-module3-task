@@ -14,7 +14,6 @@ import java.util.Objects;
 @Scope("prototype")
 @Entity
 @Table(name = "tag")
-@EntityListeners({AuditingEntityListener.class})
 public class TagModel implements BaseEntity<Long> {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

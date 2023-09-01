@@ -52,6 +52,7 @@ public class Menu {
                     case "13" -> invoker.setCommand(new DeleteNewsByIdCommand(newsController, input));
                     case "14" -> invoker.setCommand(new DeleteAuthorByIdCommand(authorController, input));
                     case "15" -> invoker.setCommand(new DeleteTagByIdCommand(tagController, input));
+                    case "16" -> invoker.setCommand(new ReadAuthorByNewsId(authorController,input));
                     case "0" -> exitProgram();
                     default -> System.out.println(MenuConstants.OPERATION_ERROR);
                 }

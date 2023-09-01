@@ -41,8 +41,6 @@ public interface NewsMapper {
     }
     @Mapping(target = "authorId", source = "author.id")
     @Mapping(target = "tagsId", source = "tags", qualifiedByName = "tagModelToTagId")
-    @Mapping(target = "createDate", ignore = true)
-    @Mapping(target = "lastUpdateDate", ignore = true)
     NewsDtoResponse newsToDtoResponse(NewsModel model);
 
 
@@ -53,7 +51,7 @@ public interface NewsMapper {
             tags.stream().forEach(
                     o -> {
                        tagsListId.add(o.getId());
-                    }            );
+                    });
         }
         return tagsListId;
     }
