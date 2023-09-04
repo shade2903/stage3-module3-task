@@ -1,104 +1,73 @@
-//package com.mjc.school.service;
-//
-//import com.mjc.school.service.dto.NewsDtoRequest;
-//import com.mjc.school.service.dto.NewsDtoResponse;
-//import com.mjc.school.service.exception.NotFoundException;
-//import org.junit.jupiter.api.Test;
-//import org.springframework.beans.factory.annotation.Autowired;
-//import org.springframework.context.annotation.ComponentScan;
-//import org.springframework.context.annotation.Configuration;
-//import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
-//
-//import static org.junit.jupiter.api.Assertions.*;
-//import static org.junit.jupiter.api.Assertions.assertThrows;
-//
-//@SpringJUnitConfig
-//public class NewsServiceTest {
-//    @Configuration
-//    @ComponentScan({"com.mjc.school.repository",
-//            "com.mjc.school.service"})
-//    static class TestNewsConfig{}
-//
-//    @Autowired
-//    private BaseService<NewsDtoRequest, NewsDtoResponse,Long > newsService;
-//
-//
-//    @Test
-//    void readAllNewsTest(){
-//        assertNotNull(newsService.readAll());
-//    }
-//
-//    @Test
-//    void readAuthorByIdTest(){
-//        Long getNewsId = 5l;
-//        Long expectedIdNews = 5l;
-//        NewsDtoResponse newsDtoResponse = newsService.readById(getNewsId);
-//        assertNotNull(newsDtoResponse);
-//        assertEquals(expectedIdNews,newsDtoResponse.getId());
-//        assertNotNull(newsDtoResponse.getContent());
-//        assertNotNull(newsDtoResponse.getTitle());
-//        assertNotNull(newsDtoResponse.getCreateDate());
-//        assertNotNull(newsDtoResponse.getLastUpdateDate());
-//        assertNotNull(newsDtoResponse.getAuthorId());
-//        assertThrows(NotFoundException.class, ()-> newsService.readById(-1l));
-//    }
-//
-//    @Test
-//    void createAuthorTest(){
-//        String expectedContent = "New content";
-//        String expectedTitle = "New title";
-//        Long expectedAuthorId = 15l;
-//        NewsDtoResponse createNews = newsService.create(
-//                new NewsDtoRequest(
-//                        null, "" +
-//                        "New title",
-//                        "New content",
-//                        15l)
-//        );
-//        assertNotNull(createNews);
-//        assertNotNull(createNews.getId());
-//        assertNotNull(createNews.getTitle());
-//        assertNotNull(createNews.getContent());
-//        assertNotNull(createNews.getCreateDate());
-//        assertNotNull(createNews.getLastUpdateDate());
-//        assertNotNull(createNews.getId());
-//        assertEquals(expectedContent,createNews.getContent());
-//        assertEquals(expectedTitle,createNews.getTitle());
-//        assertEquals(expectedAuthorId,createNews.getAuthorId());
-//    }
-//
-//    @Test
-//    void updateAuthorTest(){
-//        String expectedContent = "New content";
-//        String expectedTitle = "New title";
-//        Long expectedAuthorId = 15l;
-//        NewsDtoResponse updatedNews = newsService.update(
-//                new NewsDtoRequest(
-//                        5l, "" +
-//                        "New title",
-//                        "New content",
-//                        15l)
-//        );
-//        System.out.println(updatedNews);
-//        assertNotNull(updatedNews);
-//        assertNotNull(updatedNews.getId());
-//        assertNotNull(updatedNews.getTitle());
-//        assertNotNull(updatedNews.getContent());
-//        assertNotNull(updatedNews.getCreateDate());
-//        assertNotNull(updatedNews.getLastUpdateDate());
-//        assertNotNull(updatedNews.getId());
-//        assertEquals(expectedContent,updatedNews.getContent());
-//        assertEquals(expectedTitle,updatedNews.getTitle());
-//        assertEquals(expectedAuthorId,updatedNews.getAuthorId());
-//        assertNotEquals(updatedNews.getLastUpdateDate(), updatedNews.getCreateDate());
-//    }
-//
-//    @Test
-//    void deleteAuthorById(){
-//        int actualListSizeBeforeOperation = newsService.readAll().size();
-//        assertTrue(newsService.deleteById(13l));
-//        int actualListSizeAfterOperation = newsService.readAll().size();
-//        assertEquals(actualListSizeBeforeOperation -1,actualListSizeAfterOperation);
-//        assertThrows(NotFoundException.class, ()-> newsService.deleteById(-1l));
-//    }
-//}
+package com.mjc.school.service;
+
+
+import com.mjc.school.repository.impl.NewsRepository;
+import com.mjc.school.repository.model.impl.NewsModel;
+import com.mjc.school.service.dto.NewsDtoRequest;
+import com.mjc.school.service.dto.NewsDtoResponse;
+import com.mjc.school.service.impl.NewsService;
+import com.mjc.school.service.mapper.NewsMapper;
+import com.mjc.school.service.mapper.TagMapper;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
+
+import java.util.List;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
+
+@ExtendWith(MockitoExtension.class)
+public class NewsServiceTest {
+
+    private final Long EXPECTED_ID = 3L;
+    private final String EXPECTED_TITLE = "Test Title";
+    private final String EXPECTED_CONTENT = "TEST CONTENT";
+
+    private final Long EXPECTED_AUTHOR_ID = 1L;
+    @Mock
+    private  NewsRepository newsRepository;
+    @InjectMocks
+    private  NewsService newsService;
+    private NewsDtoRequest newsDtoRequest;
+
+    private NewsModel newsModel;
+
+    @BeforeEach
+    public void init(){
+        newsDtoRequest =  new NewsDtoRequest(EXPECTED_ID, EXPECTED_TITLE,
+                EXPECTED_CONTENT, 1L, List.of(2L,3L,4L));
+        newsModel = NewsMapper.INSTANCE.newsFromDtoRequest(newsDtoRequest);
+    }
+
+    @Test
+    void readAllTest(){
+        int expectedSize = 2;
+        NewsDtoRequest newsDtoRequest1 = new NewsDtoRequest(2L, "Test title2", "Test content2",
+                3L,List.of(1L,4L));
+        NewsModel newsModel = NewsMapper.INSTANCE.newsFromDtoRequest(newsDtoRequest);
+        NewsModel newsModel1 = NewsMapper.INSTANCE.newsFromDtoRequest(newsDtoRequest1);
+        when(newsRepository.readAll()).thenReturn(List.of(newsModel,newsModel1));
+        List<NewsDtoResponse> newsDtoResponses = newsService.readAll();
+        assertNotNull(newsDtoResponses);
+        assertEquals(2, newsDtoResponses.size());
+    }
+
+    @Test
+    void createTest(){
+//        given(newsRepository.create(newsModel)).willReturn(newsModel);
+//        NewsDtoResponse actual = newsService.create(newsDtoRequest);
+//        System.out.println(actual);
+//        assertNotNull(actual);
+//        assertEquals(EXPECTED_ID, actual.getId());
+//        assertEquals(EXPECTED_TITLE, actual.getTitle());
+//        assertEquals(EXPECTED_CONTENT, actual.getContent());
+    }
+
+
+}

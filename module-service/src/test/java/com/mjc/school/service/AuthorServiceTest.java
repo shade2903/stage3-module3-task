@@ -57,7 +57,7 @@ public class AuthorServiceTest {
     }
 
     @Test
-    void ReadAllTest() {
+    void readAllTest() {
         when(authorRepository.readAll()).thenReturn(authorList);
         List<AuthorDtoResponse> authorDtoResponses = authorService.readAll();
         assertNotNull(authorDtoResponses);
