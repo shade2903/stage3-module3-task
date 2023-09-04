@@ -7,6 +7,8 @@ import com.mjc.school.repository.model.impl.AuthorModel;
 import com.mjc.school.repository.model.impl.NewsModel;
 import com.mjc.school.service.dto.AuthorDtoRequest;
 import com.mjc.school.service.dto.AuthorDtoResponse;
+import com.mjc.school.service.exception.InvalidDataException;
+import com.mjc.school.service.exception.NotFoundException;
 import com.mjc.school.service.impl.AuthorService;
 import com.mjc.school.service.mapper.AuthorMapper;
 import org.junit.jupiter.api.Assertions;
@@ -22,19 +24,20 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.argThat;
+import static org.mockito.ArgumentMatchers.refEq;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class AuthorServiceTest {
     private final Long EXPECTED_ID = 4l;
-
     private final String EXPECTED_NAME = "TestAuthorName";
-    private final  List<AuthorModel> authorList = new ArrayList<>();
-    private final List<NewsModel> newsList = new ArrayList<>();
-
+    private final List<AuthorModel> authorList = new ArrayList<>();
     private AuthorDtoRequest authorDtoRequest;
-
     private AuthorModel authorModel;
 
     @Mock
@@ -44,32 +47,75 @@ public class AuthorServiceTest {
     private AuthorService authorService;
 
     @BeforeEach
-    void init(){
-        authorDtoRequest = new AuthorDtoRequest(4L,"TestAuthorName");
-        authorModel = new AuthorModel(4L, "TestAuthorName", LocalDateTime.now(), LocalDateTime.now())
+    void init() {
+        authorDtoRequest = new AuthorDtoRequest(EXPECTED_ID, EXPECTED_NAME);
+        authorModel = AuthorMapper.INSTANCE.authorFromDtoRequest(authorDtoRequest);
 
-        authorList.add(new AuthorModel(1L,"Maik Herst", LocalDateTime.now(), LocalDateTime.now()));
-        authorList.add(new AuthorModel(2L,"Jodi Foster", LocalDateTime.now(), LocalDateTime.now()));
-        authorList.add(new AuthorModel(3L,"Henry Cavil", LocalDateTime.now(), LocalDateTime.now()));
+        authorList.add(new AuthorModel(1L, "Maik Herst", LocalDateTime.now(), LocalDateTime.now()));
+        authorList.add(new AuthorModel(2L, "Jodi Foster", LocalDateTime.now(), LocalDateTime.now()));
+        authorList.add(new AuthorModel(3L, "Henry Cavil", LocalDateTime.now(), LocalDateTime.now()));
     }
 
     @Test
-    @DisplayName("test method readAll()")
-  void testReadAllAuthors(){
-        Mockito.when(authorRepository.readAll()).thenReturn(authorList);
+    void ReadAllTest() {
+        when(authorRepository.readAll()).thenReturn(authorList);
         List<AuthorDtoResponse> authorDtoResponses = authorService.readAll();
-        Assertions.assertNotNull(authorDtoResponses);
+        assertNotNull(authorDtoResponses);
         assertEquals(authorList.size(), authorDtoResponses.size());
     }
 
-//    @Test
-//    @DisplayName("test method create()")
-//    void testCreate(){
-//        Mockito.when(authorRepository.create(authorModel))
-//                .thenReturn(AuthorMapper.INSTANCE.authorToDtoResponse(authorModel));
-//        AuthorDtoResponse authorDtoResponse = authorRepository.create(authorModel)
-//    }
+    @Test
+    void createTest() {
+        given(authorRepository.create(authorModel)).willReturn(authorModel);
+        AuthorDtoResponse actual = authorService.create(authorDtoRequest);
+        assertNotNull(actual);
+        assertEquals(EXPECTED_ID, actual.getId());
+        assertEquals(EXPECTED_NAME, actual.getName());
+    }
 
+    @Test
+    void ReadByIdTest() {
+        given(authorRepository.readById(EXPECTED_ID)).willReturn(Optional.of(authorModel));
+        AuthorDtoResponse actual = authorService.readById(EXPECTED_ID);
+        assertNotNull(actual);
+        assertEquals(EXPECTED_ID, actual.getId());
+        assertEquals(EXPECTED_NAME, actual.getName());
+    }
 
+    @Test
+    void updateTest() {
+        AuthorDtoRequest updatedRequest = authorDtoRequest;
+        authorDtoRequest.setName("updatedName");
+        AuthorModel updatedModel = AuthorMapper.INSTANCE.authorFromDtoRequest(updatedRequest);
+        given(authorRepository.update(updatedModel)).willReturn(authorModel);
+        given(authorRepository.existById(authorModel.getId())).willReturn(true);
+        AuthorDtoResponse actual = authorService.update(updatedRequest);
+        assertNotNull(actual);
+        assertEquals(EXPECTED_ID, actual.getId());
+        assertEquals(EXPECTED_NAME, actual.getName());
+    }
+
+    @Test
+    void deleteTest() {
+        given(authorRepository.deleteById(EXPECTED_ID)).willReturn(true);
+        given(authorRepository.existById(EXPECTED_ID)).willReturn(true);
+        assertTrue(authorService.deleteById(4L));
+    }
+
+    @Test()
+    void notValidIdTest() {
+        Long notValidId = 0L;
+        assertThrows(NotFoundException.class, () -> authorService.deleteById(notValidId));
+    }
+    @Test
+    void notValidNameTest() {
+        String notValidName = "Jak";
+        AuthorDtoRequest authorDtoRequest1 = new AuthorDtoRequest(null, notValidName);
+        when(authorRepository.create(argThat(argument -> argument.getName() == null ||
+                argument.getName().length() < 5)))
+                .thenThrow(InvalidDataException.class);
+        assertThrows(InvalidDataException.class, () ->
+                authorService.create(new AuthorDtoRequest(null, notValidName)));
+    }
 }
 

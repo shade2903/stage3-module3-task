@@ -3,6 +3,7 @@ package com.mjc.school.service.validator;
 import com.mjc.school.service.constants.Constants;
 import com.mjc.school.service.dto.AuthorDtoRequest;
 import com.mjc.school.service.dto.NewsDtoRequest;
+import com.mjc.school.service.dto.TagDtoRequest;
 import com.mjc.school.service.exception.ErrorCode;
 import com.mjc.school.service.exception.InvalidDataException;
 import com.mjc.school.service.exception.NotFoundException;
@@ -23,6 +24,10 @@ public class Validator {
         validateNumber(authorId, Constants.AUTHOR_ID);
     }
 
+    public static void validateTagId(Long tagId) {
+        validateNumber(tagId, Constants.TAGS_ID);
+    }
+
     public static void validateNewsDto(NewsDtoRequest dtoRequest) {
         validateString(dtoRequest.getTitle(), Constants.NEWS_TITLE, Constants.MIN_TITLE_LENGTH, Constants.MAX_TITLE_LENGTH);
         validateString(dtoRequest.getContent(), Constants.NEWS_CONTENT, Constants.MIN_CONTENT_LENGTH, Constants.MAX_CONTENT_LENGTH);
@@ -30,6 +35,10 @@ public class Validator {
 
     public  static void validateAuthorDto(AuthorDtoRequest dtoRequest) {
         validateString(dtoRequest.getName(), Constants.AUTHOR_NAME, Constants.MIN_AUTHOR_NAME, Constants.MAX_AUTHOR_NAME);
+    }
+
+    public static void validateTagDto(TagDtoRequest dtoRequest){
+        validateString(dtoRequest.getName(), Constants.TAG, Constants.MIN_TITLE_LENGTH, Constants.MAX_TITLE_LENGTH);
     }
 
     private static void validateString(String value, String parameter, int minLength, int maxLength) {

@@ -60,7 +60,6 @@ public class AuthorRepository implements BaseRepository<AuthorModel, Long> {
             entityManager.getTransaction().commit();
             return !existById(id);
         }
-
         return false;
     }
 

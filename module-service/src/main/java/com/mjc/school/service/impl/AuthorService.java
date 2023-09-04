@@ -3,8 +3,8 @@ package com.mjc.school.service.impl;
 import com.mjc.school.repository.BaseRepository;
 import com.mjc.school.repository.model.impl.AuthorModel;
 import com.mjc.school.service.BaseService;
-import com.mjc.school.service.annotation.ValidateAuthorId;
-import com.mjc.school.service.annotation.ValidateAuthorParam;
+import com.mjc.school.service.annotation.ValidateId;
+import com.mjc.school.service.annotation.ValidateParam;
 import com.mjc.school.service.constants.Constants;
 import com.mjc.school.service.dto.AuthorDtoRequest;
 import com.mjc.school.service.dto.AuthorDtoResponse;
@@ -33,7 +33,7 @@ public class AuthorService implements BaseService<AuthorDtoRequest, AuthorDtoRes
     }
 
     @Override
-    @ValidateAuthorId
+    @ValidateId
     public AuthorDtoResponse readById(Long id) {
         Optional<AuthorModel> authorModel = authorRepository.readById(id);
         if (authorModel.isPresent()) {
@@ -44,14 +44,14 @@ public class AuthorService implements BaseService<AuthorDtoRequest, AuthorDtoRes
     }
 
     @Override
-    @ValidateAuthorParam
+    @ValidateParam
     public AuthorDtoResponse create(AuthorDtoRequest createRequest) {
         return AuthorMapper.INSTANCE.authorToDtoResponse(
                 authorRepository.create(AuthorMapper.INSTANCE.authorFromDtoRequest(createRequest)));
     }
 
     @Override
-    @ValidateAuthorParam
+    @ValidateParam
     public AuthorDtoResponse update(AuthorDtoRequest updateRequest) {
         if(authorRepository.existById(updateRequest.getId())){
             AuthorModel updateAuthor = authorRepository.update(AuthorMapper.INSTANCE.authorFromDtoRequest(updateRequest));
@@ -62,7 +62,7 @@ public class AuthorService implements BaseService<AuthorDtoRequest, AuthorDtoRes
     }
 
     @Override
-    @ValidateAuthorId
+    @ValidateId
     public boolean deleteById(Long id) {
         if(authorRepository.existById(id)){
             return authorRepository.deleteById(id);

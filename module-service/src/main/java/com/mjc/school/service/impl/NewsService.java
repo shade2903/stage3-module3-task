@@ -5,9 +5,8 @@ import com.mjc.school.repository.BaseRepository;
 import com.mjc.school.repository.model.impl.AuthorModel;
 import com.mjc.school.repository.model.impl.NewsModel;
 import com.mjc.school.service.BaseService;
-import com.mjc.school.service.annotation.ValidateAuthorParam;
-import com.mjc.school.service.annotation.ValidateNewsId;
-import com.mjc.school.service.annotation.ValidateNewsParam;
+import com.mjc.school.service.annotation.ValidateId;
+import com.mjc.school.service.annotation.ValidateParam;
 import com.mjc.school.service.constants.Constants;
 import com.mjc.school.service.dto.NewsDtoRequest;
 import com.mjc.school.service.dto.NewsDtoResponse;
@@ -17,7 +16,6 @@ import com.mjc.school.service.mapper.NewsMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -39,7 +37,7 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
     }
 
     @Override
-    @ValidateNewsId
+    @ValidateId
     public NewsDtoResponse readById(Long id) {
         Optional<NewsModel> newsModel = newsRepository.readById(id);
         if (newsModel.isPresent()) {
@@ -50,7 +48,7 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
     }
 
     @Override
-    @ValidateNewsParam
+    @ValidateParam
     public NewsDtoResponse create(NewsDtoRequest createRequest) {
         if (authorRepository.existById(createRequest.getAuthorId())) {
             NewsModel createNews = NewsMapper.INSTANCE.newsFromDtoRequest(createRequest);
@@ -61,7 +59,7 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
     }
 
     @Override
-    @ValidateNewsParam
+    @ValidateParam
     public NewsDtoResponse update(NewsDtoRequest updateRequest) {
         if (newsRepository.existById(updateRequest.getId())) {
             NewsModel newsModel = newsRepository.update(NewsMapper.INSTANCE.newsFromDtoRequest(updateRequest));
@@ -72,7 +70,7 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
     }
 
     @Override
-    @ValidateNewsId
+    @ValidateId
     public boolean deleteById(Long id) {
         if (newsRepository.existById(id)) {
 
