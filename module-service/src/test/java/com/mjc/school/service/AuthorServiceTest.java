@@ -74,7 +74,7 @@ public class AuthorServiceTest {
     }
 
     @Test
-    void ReadByIdTest() {
+    void readByIdTest() {
         given(authorRepository.readById(EXPECTED_ID)).willReturn(Optional.of(authorModel));
         AuthorDtoResponse actual = authorService.readById(EXPECTED_ID);
         assertNotNull(actual);

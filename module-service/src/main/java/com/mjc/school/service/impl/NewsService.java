@@ -50,17 +50,21 @@ public class NewsService implements BaseService<NewsDtoRequest, NewsDtoResponse,
     @Override
     @ValidateParam
     public NewsDtoResponse create(NewsDtoRequest createRequest) {
-        if (authorRepository.existById(createRequest.getAuthorId())) {
-            NewsModel createNews = NewsMapper.INSTANCE.newsFromDtoRequest(createRequest);
-            return NewsMapper.INSTANCE.newsToDtoResponse(newsRepository.create(createNews));
+        if (!authorRepository.existById(createRequest.getAuthorId())) {
+            throw new NotFoundException(
+                    String.format(ErrorCode.NOT_FOUND_DATA.getMessage(), Constants.AUTHOR, createRequest.getAuthorId()));
         }
-        throw new NotFoundException(
-                String.format(ErrorCode.NOT_FOUND_DATA.getMessage(), Constants.AUTHOR, createRequest.getAuthorId()));
+        NewsModel createNews = NewsMapper.INSTANCE.newsFromDtoRequest(createRequest);
+        return NewsMapper.INSTANCE.newsToDtoResponse(newsRepository.create(createNews));
     }
 
     @Override
     @ValidateParam
     public NewsDtoResponse update(NewsDtoRequest updateRequest) {
+        if (!authorRepository.existById(updateRequest.getAuthorId())) {
+            throw new NotFoundException(
+                    String.format(ErrorCode.NOT_FOUND_DATA.getMessage(), Constants.AUTHOR, updateRequest.getAuthorId()));
+        }
         if (newsRepository.existById(updateRequest.getId())) {
             NewsModel newsModel = newsRepository.update(NewsMapper.INSTANCE.newsFromDtoRequest(updateRequest));
             return NewsMapper.INSTANCE.newsToDtoResponse(newsModel);
