@@ -57,7 +57,7 @@ public class NewsController implements BaseController<NewsDtoRequest, NewsDtoRes
                                                String content) {
         List<NewsDtoResponse> allNews = newsService.readAll();
         Set<NewsDtoResponse> news;
-        NewsDtoResponse newsDtoResponse;
+
         return null;
     }
 }

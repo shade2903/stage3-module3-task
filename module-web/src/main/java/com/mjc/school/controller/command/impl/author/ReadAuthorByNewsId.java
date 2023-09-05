@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Scanner;
 
 public class ReadAuthorByNewsId  implements Command {
-    AuthorController authorController;
-    Scanner scanner;
+   private AuthorController authorController;
+   private Scanner scanner;
     public ReadAuthorByNewsId(BaseController<AuthorDtoRequest, AuthorDtoResponse, Long> authorController, Scanner scanner) {
         this.authorController = (AuthorController) authorController;
         this.scanner = scanner;
