@@ -20,4 +20,5 @@ public class Utils {
             throw new InvalidDataException(String.format(ErrorCode.VALIDATE_INT_VALUE.getMessage(), "args"));
         }
     }
+
 }
