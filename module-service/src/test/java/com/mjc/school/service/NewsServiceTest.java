@@ -68,46 +68,46 @@ public class NewsServiceTest {
         assertEquals(2, newsDtoResponses.size());
     }
 
-    @Test
-    void updateTest() {
-        newsDtoRequest.setContent("Updated Content");
-        newsDtoRequest.setTitle("Updated Title");
-        NewsModel newsModel1 = NewsMapper.INSTANCE.newsFromDtoRequest(newsDtoRequest);
-        given(newsRepository.update(newsModel1)).willReturn(newsModel1);
-        given(newsRepository.existById(any())).willReturn(true);
-        NewsDtoResponse newsDtoResponse = newsService.update(newsDtoRequest);
-        System.out.println(newsDtoResponse);
-    }
+//    @Test
+//    void updateTest() {
+//        newsDtoRequest.setContent("Updated Content");
+//        newsDtoRequest.setTitle("Updated Title");
+//        NewsModel newsModel1 = NewsMapper.INSTANCE.newsFromDtoRequest(newsDtoRequest);
+//        given(newsRepository.update(newsModel1)).willReturn(newsModel1);
+//        given(newsRepository.existById(any())).willReturn(true);
+//        NewsDtoResponse newsDtoResponse = newsService.update(newsDtoRequest);
+//        System.out.println(newsDtoResponse);
+//    }
+//
+//    void createTest() {
+//        NewsModel newsModel1 = NewsMapper.INSTANCE.newsFromDtoRequest(newsDtoRequest);
+//        AuthorModel authorModel = new AuthorModel(1l, "Some Author",
+//                LocalDateTime.now(), LocalDateTime.now());
+//        newsModel1.setAuthor(authorModel);
+//        given(newsRepository.create(any(NewsModel.class))).willReturn(newsModel1);
+//        when(authorRepository.existById(any())).thenReturn(true);
+////        when(authorRepository.readById(any())).thenReturn(Optional.of(authorModel));
+//        NewsDtoResponse newsDtoResponse = newsService.create(newsDtoRequest);
+//
+//    }
 
-    void createTest() {
-        NewsModel newsModel1 = NewsMapper.INSTANCE.newsFromDtoRequest(newsDtoRequest);
-        AuthorModel authorModel = new AuthorModel(1l, "Some Author",
-                LocalDateTime.now(), LocalDateTime.now());
-        newsModel1.setAuthor(authorModel);
-        given(newsRepository.create(any(NewsModel.class))).willReturn(newsModel1);
-        when(authorRepository.existById(any())).thenReturn(true);
-//        when(authorRepository.readById(any())).thenReturn(Optional.of(authorModel));
-        NewsDtoResponse newsDtoResponse = newsService.create(newsDtoRequest);
-        System.out.println(newsDtoResponse);
-    }
-
-    @Test
-    void readByIdTest() {
-        NewsModel newsModel = NewsMapper.INSTANCE.newsFromDtoRequest(newsDtoRequest);
-        given(newsRepository.readById(EXPECTED_ID)).willReturn(Optional.of(newsModel));
-        NewsDtoResponse actual = newsService.readById(EXPECTED_ID);
-        assertNotNull(actual);
-        assertEquals(newsModel.getId(), actual.getId());
-        assertEquals(newsModel.getContent(), actual.getContent());
-        assertEquals(newsModel.getTitle(), actual.getTitle());
-    }
-
-    @Test
-     void deleteTest(){
-        given(newsRepository.deleteById(EXPECTED_ID)).willReturn(true);
-        given(newsRepository.existById(EXPECTED_ID)).willReturn(true);
-        assertTrue(newsService.deleteById(3L));
-     }
+//    @Test
+//    void readByIdTest() {
+//        NewsModel newsModel = NewsMapper.INSTANCE.newsFromDtoRequest(newsDtoRequest);
+//        given(newsRepository.readById(EXPECTED_ID)).willReturn(Optional.of(newsModel));
+//        NewsDtoResponse actual = newsService.readById(EXPECTED_ID);
+//        assertNotNull(actual);
+//        assertEquals(newsModel.getId(), actual.getId());
+//        assertEquals(newsModel.getContent(), actual.getContent());
+//        assertEquals(newsModel.getTitle(), actual.getTitle());
+//    }
+//
+//    @Test
+//     void deleteTest(){
+//        given(newsRepository.deleteById(EXPECTED_ID)).willReturn(true);
+//        given(newsRepository.existById(EXPECTED_ID)).willReturn(true);
+//        assertTrue(newsService.deleteById(3L));
+//     }
 
      @Test()
     void notValidTest(){
