@@ -12,7 +12,7 @@ import com.mjc.school.service.dto.NewsDtoResponse;
 import java.util.Scanner;
 
 public class DeleteNewsByIdCommand extends AbstractCommand<NewsDtoRequest, NewsDtoResponse, Long> implements Command {
-    public DeleteNewsByIdCommand(BaseController controller, Scanner scanner) {
+    public DeleteNewsByIdCommand(BaseController<NewsDtoRequest,NewsDtoResponse,Long> controller, Scanner scanner) {
         super(controller, scanner);
     }
 
